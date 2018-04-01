@@ -229,7 +229,6 @@ public class ResourceController {
         } catch (Exception e) {
             e.printStackTrace();
             return Result.newInstance().setCode(-2).setMessage("查询失败").setValue(null);
-
         }
         return Result.newInstance().setCode(1).setMessage("成功").setValue(resourceInfo);
 
