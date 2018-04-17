@@ -44,8 +44,8 @@ public class ResourceController {
         //TODO :获取session值
 
         String userId="690770002d9f4b78a10903efc3320391";
-
-
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
 
         String resourceMap= request.getParameter("resourceInfoMap");
         if(resourceMap==null)
@@ -81,7 +81,7 @@ public class ResourceController {
             return  Result.newInstance().setCode(1).setMessage("文件保存成功").setValue(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return  Result.newInstance().setCode(0).setMessage("文件保存失败").setValue(null);
+            return  Result.newInstance().setCode(-3).setMessage("文件保存失败").setValue(null);
         }
     }
 
@@ -96,7 +96,8 @@ public class ResourceController {
     public Result ResourceList(HttpServletRequest request, HttpServletResponse response){
         //TODO 获取session
         String userId="690770002d9f4b78a10903efc3320391";
-
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
 
         String resourcePageMap= request.getParameter("resourcePageMap");
         if(resourcePageMap==null)
@@ -138,6 +139,8 @@ public class ResourceController {
     public Result deleteResource(HttpServletRequest request, HttpServletResponse response){
         //TODO 获取session
         String userId="690770002d9f4b78a10903efc3320391";
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
 
 
         String resourceArrayList= request.getParameter("resourceArrayList");
@@ -177,6 +180,8 @@ public class ResourceController {
     public Result updateBlogInfo(javax.servlet.http.HttpServletRequest request, HttpServletResponse response) {
         //TODO :获取session值
         String userId = "690770002d9f4b78a10903efc3320391";
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
 
         String updateResourceInfoMap= request.getParameter("updateResourceInfoMap");
         if(updateResourceInfoMap==null)
@@ -203,7 +208,7 @@ public class ResourceController {
         if(i>0)
             return  Result.newInstance().setCode(1).setMessage("更新成功");
         else
-            return  Result.newInstance().setCode(0).setMessage("没有要更新的");
+            return  Result.newInstance().setCode(-5).setMessage("没有要更新的");
 
     }
 
@@ -219,6 +224,8 @@ public class ResourceController {
         //TODO 获取session
         String userId = "690770002d9f4b78a10903efc3320391";
 
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
 
         String resourceId = request.getParameter("resourceId");
         if (resourceId == null)

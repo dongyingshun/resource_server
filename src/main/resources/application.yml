@@ -1,6 +1,6 @@
 server:
   port: 8080
-　context-path: blog_server
+　context-path: resource_server
 #spring.jmx.default-domain: test
 spring.jmx.enabled: false
 spring:
