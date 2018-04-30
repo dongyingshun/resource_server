@@ -78,10 +78,10 @@ public class ResourceController {
         resourceInfo.setGetScore(0.0);
         try {
             resourceService.saveResource(resourceInfo);
-            return  Result.newInstance().setCode(1).setMessage("文件保存成功").setValue(id);
+            return  Result.newInstance().setCode(1).setMessage("操作成功").setValue(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return  Result.newInstance().setCode(-3).setMessage("文件保存失败").setValue(null);
+            return  Result.newInstance().setCode(-3).setMessage("操作失败").setValue(null);
         }
     }
 
@@ -240,4 +240,8 @@ public class ResourceController {
         return Result.newInstance().setCode(1).setMessage("成功").setValue(resourceInfo);
 
     }
+
+
+
+
 }

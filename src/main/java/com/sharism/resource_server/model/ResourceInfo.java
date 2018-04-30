@@ -3,6 +3,12 @@ package com.sharism.resource_server.model;
 public class ResourceInfo {
     private String id;
 
+    private String userId;
+
+    private String parentId;
+
+    private Integer folder;
+
     private String fileSort;
 
     private String fileName;
@@ -11,13 +17,15 @@ public class ResourceInfo {
 
     private Double fileSize;
 
+    private String fileMd5;
+
     private String filePath;
 
     private String storagePath;
 
-    private String userId;
-
     private String createDate;
+
+    private String updateTime;
 
     private Integer privacySet;
 
@@ -53,6 +61,30 @@ public class ResourceInfo {
         this.id = id == null ? null : id.trim();
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId == null ? null : parentId.trim();
+    }
+
+    public Integer getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Integer folder) {
+        this.folder = folder;
+    }
+
     public String getFileSort() {
         return fileSort;
     }
@@ -85,6 +117,14 @@ public class ResourceInfo {
         this.fileSize = fileSize;
     }
 
+    public String getFileMd5() {
+        return fileMd5;
+    }
+
+    public void setFileMd5(String fileMd5) {
+        this.fileMd5 = fileMd5 == null ? null : fileMd5.trim();
+    }
+
     public String getFilePath() {
         return filePath;
     }
@@ -101,20 +141,20 @@ public class ResourceInfo {
         this.storagePath = storagePath == null ? null : storagePath.trim();
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
-
     public String getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate == null ? null : createDate.trim();
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime == null ? null : updateTime.trim();
     }
 
     public Integer getPrivacySet() {

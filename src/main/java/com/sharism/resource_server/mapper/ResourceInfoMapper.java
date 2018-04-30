@@ -30,6 +30,7 @@ public interface ResourceInfoMapper {
 
     int updateByPrimaryKey(ResourceInfo record);
 
+
     /**
      * 多条件查询文件列表
      * @param map
@@ -44,5 +45,4 @@ public interface ResourceInfoMapper {
      * @return
      */
     int batchSetResourceDeleteStatus(@Param(value="userId")String userId,@Param(value="list") List<String>  ids);
-
 }

@@ -3,14 +3,18 @@
 <mapper namespace="com.sharism.resource_server.mapper.ResourceInfoMapper">
   <resultMap id="BaseResultMap" type="com.sharism.resource_server.model.ResourceInfo">
     <id column="id" jdbcType="CHAR" property="id" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="parent_id" jdbcType="CHAR" property="parentId" />
+    <result column="folder" jdbcType="INTEGER" property="folder" />
     <result column="file_sort" jdbcType="VARCHAR" property="fileSort" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_des" jdbcType="VARCHAR" property="fileDes" />
     <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+    <result column="file_md5" jdbcType="VARCHAR" property="fileMd5" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="storage_path" jdbcType="VARCHAR" property="storagePath" />
-    <result column="user_id" jdbcType="CHAR" property="userId" />
     <result column="create_date" jdbcType="CHAR" property="createDate" />
+    <result column="update_time" jdbcType="CHAR" property="updateTime" />
     <result column="privacy_set" jdbcType="INTEGER" property="privacySet" />
     <result column="del" jdbcType="INTEGER" property="del" />
     <result column="weight" jdbcType="INTEGER" property="weight" />
@@ -84,9 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_sort, file_name, file_des, file_size, file_path, storage_path, user_id, 
-    create_date, privacy_set, del, weight, need_password, file_password, free, pay_way, 
-    pay_link, need_score, need_money, download_amount, get_score, get_money
+    id, user_id, parent_id, folder, file_sort, file_name, file_des, file_size, file_md5, 
+    file_path, storage_path, create_date, update_time, privacy_set, del, weight, need_password, 
+    file_password, free, pay_way, pay_link, need_score, need_money, download_amount, 
+    get_score, get_money
   </sql>
   <select id="selectByExample" parameterType="com.sharism.resource_server.model.ResourceInfoExample" resultMap="BaseResultMap">
     select
@@ -120,28 +125,39 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sharism.resource_server.model.ResourceInfo">
-    insert into resource_server_db (id, file_sort, file_name, 
-      file_des, file_size, file_path, 
-      storage_path, user_id, create_date, 
-      privacy_set, del, weight, 
-      need_password, file_password, free, 
-      pay_way, pay_link, need_score, 
-      need_money, download_amount, get_score, 
-      get_money)
-    values (#{id,jdbcType=CHAR}, #{fileSort,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{fileDes,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, #{filePath,jdbcType=VARCHAR}, 
-      #{storagePath,jdbcType=VARCHAR}, #{userId,jdbcType=CHAR}, #{createDate,jdbcType=CHAR}, 
-      #{privacySet,jdbcType=INTEGER}, #{del,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
-      #{needPassword,jdbcType=INTEGER}, #{filePassword,jdbcType=VARCHAR}, #{free,jdbcType=INTEGER}, 
-      #{payWay,jdbcType=INTEGER}, #{payLink,jdbcType=VARCHAR}, #{needScore,jdbcType=DOUBLE}, 
-      #{needMoney,jdbcType=DOUBLE}, #{downloadAmount,jdbcType=INTEGER}, #{getScore,jdbcType=DOUBLE}, 
-      #{getMoney,jdbcType=DOUBLE})
+    insert into resource_server_db (id, user_id, parent_id, 
+      folder, file_sort, file_name, 
+      file_des, file_size, file_md5, 
+      file_path, storage_path, create_date, 
+      update_time, privacy_set, del, 
+      weight, need_password, file_password, 
+      free, pay_way, pay_link, 
+      need_score, need_money, download_amount, 
+      get_score, get_money)
+    values (#{id,jdbcType=CHAR}, #{userId,jdbcType=CHAR}, #{parentId,jdbcType=CHAR}, 
+      #{folder,jdbcType=INTEGER}, #{fileSort,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{fileDes,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, #{fileMd5,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{storagePath,jdbcType=VARCHAR}, #{createDate,jdbcType=CHAR}, 
+      #{updateTime,jdbcType=CHAR}, #{privacySet,jdbcType=INTEGER}, #{del,jdbcType=INTEGER}, 
+      #{weight,jdbcType=INTEGER}, #{needPassword,jdbcType=INTEGER}, #{filePassword,jdbcType=VARCHAR}, 
+      #{free,jdbcType=INTEGER}, #{payWay,jdbcType=INTEGER}, #{payLink,jdbcType=VARCHAR}, 
+      #{needScore,jdbcType=DOUBLE}, #{needMoney,jdbcType=DOUBLE}, #{downloadAmount,jdbcType=INTEGER}, 
+      #{getScore,jdbcType=DOUBLE}, #{getMoney,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.sharism.resource_server.model.ResourceInfo">
     insert into resource_server_db
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="folder != null">
+        folder,
       </if>
       <if test="fileSort != null">
         file_sort,
@@ -155,17 +171,20 @@
       <if test="fileSize != null">
         file_size,
       </if>
+      <if test="fileMd5 != null">
+        file_md5,
+      </if>
       <if test="filePath != null">
         file_path,
       </if>
       <if test="storagePath != null">
         storage_path,
       </if>
-      <if test="userId != null">
-        user_id,
-      </if>
       <if test="createDate != null">
         create_date,
+      </if>
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="privacySet != null">
         privacy_set,
@@ -211,6 +230,15 @@
       <if test="id != null">
         #{id,jdbcType=CHAR},
       </if>
+      <if test="userId != null">
+        #{userId,jdbcType=CHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=CHAR},
+      </if>
+      <if test="folder != null">
+        #{folder,jdbcType=INTEGER},
+      </if>
       <if test="fileSort != null">
         #{fileSort,jdbcType=VARCHAR},
       </if>
@@ -223,17 +251,20 @@
       <if test="fileSize != null">
         #{fileSize,jdbcType=DOUBLE},
       </if>
+      <if test="fileMd5 != null">
+        #{fileMd5,jdbcType=VARCHAR},
+      </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="storagePath != null">
         #{storagePath,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=CHAR},
-      </if>
       <if test="createDate != null">
         #{createDate,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=CHAR},
       </if>
       <if test="privacySet != null">
         #{privacySet,jdbcType=INTEGER},
@@ -288,6 +319,15 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=CHAR},
       </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=CHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=CHAR},
+      </if>
+      <if test="record.folder != null">
+        folder = #{record.folder,jdbcType=INTEGER},
+      </if>
       <if test="record.fileSort != null">
         file_sort = #{record.fileSort,jdbcType=VARCHAR},
       </if>
@@ -300,17 +340,20 @@
       <if test="record.fileSize != null">
         file_size = #{record.fileSize,jdbcType=DOUBLE},
       </if>
+      <if test="record.fileMd5 != null">
+        file_md5 = #{record.fileMd5,jdbcType=VARCHAR},
+      </if>
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
       <if test="record.storagePath != null">
         storage_path = #{record.storagePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=CHAR},
-      </if>
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=CHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=CHAR},
       </if>
       <if test="record.privacySet != null">
         privacy_set = #{record.privacySet,jdbcType=INTEGER},
@@ -359,14 +402,18 @@
   <update id="updateByExample" parameterType="map">
     update resource_server_db
     set id = #{record.id,jdbcType=CHAR},
+      user_id = #{record.userId,jdbcType=CHAR},
+      parent_id = #{record.parentId,jdbcType=CHAR},
+      folder = #{record.folder,jdbcType=INTEGER},
       file_sort = #{record.fileSort,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       file_des = #{record.fileDes,jdbcType=VARCHAR},
       file_size = #{record.fileSize,jdbcType=DOUBLE},
+      file_md5 = #{record.fileMd5,jdbcType=VARCHAR},
       file_path = #{record.filePath,jdbcType=VARCHAR},
       storage_path = #{record.storagePath,jdbcType=VARCHAR},
-      user_id = #{record.userId,jdbcType=CHAR},
       create_date = #{record.createDate,jdbcType=CHAR},
+      update_time = #{record.updateTime,jdbcType=CHAR},
       privacy_set = #{record.privacySet,jdbcType=INTEGER},
       del = #{record.del,jdbcType=INTEGER},
       weight = #{record.weight,jdbcType=INTEGER},
@@ -387,6 +434,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sharism.resource_server.model.ResourceInfo">
     update resource_server_db
     <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=CHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=CHAR},
+      </if>
+      <if test="folder != null">
+        folder = #{folder,jdbcType=INTEGER},
+      </if>
       <if test="fileSort != null">
         file_sort = #{fileSort,jdbcType=VARCHAR},
       </if>
@@ -399,17 +455,20 @@
       <if test="fileSize != null">
         file_size = #{fileSize,jdbcType=DOUBLE},
       </if>
+      <if test="fileMd5 != null">
+        file_md5 = #{fileMd5,jdbcType=VARCHAR},
+      </if>
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="storagePath != null">
         storage_path = #{storagePath,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=CHAR},
-      </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=CHAR},
       </if>
       <if test="privacySet != null">
         privacy_set = #{privacySet,jdbcType=INTEGER},
@@ -455,14 +514,18 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sharism.resource_server.model.ResourceInfo">
     update resource_server_db
-    set file_sort = #{fileSort,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=CHAR},
+      parent_id = #{parentId,jdbcType=CHAR},
+      folder = #{folder,jdbcType=INTEGER},
+      file_sort = #{fileSort,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
       file_des = #{fileDes,jdbcType=VARCHAR},
       file_size = #{fileSize,jdbcType=DOUBLE},
+      file_md5 = #{fileMd5,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
       storage_path = #{storagePath,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=CHAR},
       create_date = #{createDate,jdbcType=CHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
       privacy_set = #{privacySet,jdbcType=INTEGER},
       del = #{del,jdbcType=INTEGER},
       weight = #{weight,jdbcType=INTEGER},
@@ -479,6 +542,7 @@
     where id = #{id,jdbcType=CHAR}
   </update>
 
+
   <!--多条件查询-->
   <select id="selectResourcePage" parameterType="map" resultMap="BaseResultMap">
     select
@@ -487,72 +551,75 @@
     where user_id = #{userId,jdbcType=CHAR}
 
     <if test="fileSort != null">
-        AND  file_sort = #{fileSort}
+      AND  file_sort = #{fileSort}
     </if>
 
     <if test="fileName != null">
-          AND  file_name = #{fileName}
+      AND  file_name = #{fileName}
     </if>
 
     <if test="fileDes != null">
-          AND   file_des = #{fileDes}
+      AND   file_des = #{fileDes}
     </if>
 
     <if test="fileSize != null">
-          AND   file_size = #{fileSize}
+      AND   file_size = #{fileSize}
     </if>
     <if test="filePath != null">
-          AND    file_path = #{filePath}
+      AND    file_path = #{filePath}
     </if>
     <if test="storagePath != null">
-          AND    storage_path  = #{storagePath}
+      AND    storage_path  = #{storagePath}
     </if>
     <if test="createDate != null">
-          AND    create_date  = #{createDate}
+      AND    create_date  = #{createDate}
     </if>
     <if test="privacySet != null">
-          AND     privacy_set    = #{privacySet}
+      AND     privacy_set    = #{privacySet}
     </if>
     <if test="del   != null">
-          AND    del   = #{del }
+      AND    del   = #{del }
     </if>
     <if test="weight  != null">
-          AND    weight  = #{weight}
+      AND    weight  = #{weight}
     </if>
     <if test="needPassword  != null">
-          AND    need_password  = #{needPassword}
+      AND    need_password  = #{needPassword}
     </if>
     <if test="filePassword  != null">
-          AND   file_password  = #{filePassword}
+      AND   file_password  = #{filePassword}
     </if>
     <if test="free  != null">
-          AND    free  = #{free}
+      AND    free  = #{free}
     </if>
     <if test="needScore  != null">
-          AND    need_score = #{needScore}
+      AND    need_score = #{needScore}
     </if>
     <if test="needMoney   != null">
-          AND  need_money = #{needMoney}
+      AND  need_money = #{needMoney}
     </if>
 
     <if test="arrange == 'ASC'">
-          ORDER BY  create_date  ASC
+      ORDER BY  create_date  ASC
     </if>
     <if test="arrange == 'DESC'">
-          ORDER BY  create_date  DESC
+      ORDER BY  create_date  DESC
     </if>
     <if test="arrange == null">
-          ORDER BY  create_date  DESC
+      ORDER BY  create_date  DESC
     </if>
   </select>
-    <!--批量设置为删除状态-->
-    <update id="batchSetResourceDeleteStatus" parameterType="java.util.List">
-        update resource_server_db set del = 1 where user_id= #{userId} AND id in
-        <foreach collection="list" item="item" index="index" open="(" close=")"  separator="," >
-            #{item}
-        </foreach>
+  <!--批量设置为删除状态-->
+  <update id="batchSetResourceDeleteStatus" parameterType="java.util.List">
+    update resource_server_db set del = 1 where user_id= #{userId} AND id in
+    <foreach collection="list" item="item" index="index" open="(" close=")"  separator="," >
+      #{item}
+    </foreach>
 
-    </update>
+  </update>
+
+
+
 
 
 </mapper>
