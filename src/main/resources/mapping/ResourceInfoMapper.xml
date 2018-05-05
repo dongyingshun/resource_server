@@ -570,7 +570,7 @@
     <if test="fileSort != null">
       AND  file_sort = #{fileSort}
     </if>
-    <if test="parentId != null">
+    <if test="parentId != null and parentId !=''">
       AND  parent_id = #{parentId}
     </if>
     <if test="fileName != null">

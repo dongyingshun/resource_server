@@ -51,10 +51,10 @@ public class ResourceController {
         if(resourceMap==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
         JSONObject jb = JSONObject.fromObject(resourceMap);
-        Map blogMap = (Map)jb;
+        Map resource = (Map)jb;
         ResourceInfo resourceInfo=new ResourceInfo();
         try {
-            resourceInfo  = (ResourceInfo) mapToBean.mapToBean(blogMap, ResourceInfo.class);
+            resourceInfo  = (ResourceInfo) mapToBean.mapToBean(resource, ResourceInfo.class);
         } catch (Exception e) {
             e.printStackTrace();
             return  Result.newInstance().setCode(-2).setMessage("数据转换有误").setValue(null);
@@ -65,6 +65,7 @@ public class ResourceController {
         //作者id
         resourceInfo.setUserId(userId);
         //资源存储路径storage
+        if(resourceInfo.getFilePath().length()>2)
         resourceInfo.setStoragePath(resourceInfo.getFilePath().substring(PublicValue.SERVER_ADDRESS_LENGTH+2));
         //发表时间
         String time = DateTime.getStringDate();
