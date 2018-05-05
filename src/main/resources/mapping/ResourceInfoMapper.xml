@@ -8,6 +8,7 @@
     <result column="folder" jdbcType="INTEGER" property="folder" />
     <result column="file_sort" jdbcType="VARCHAR" property="fileSort" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
     <result column="file_des" jdbcType="VARCHAR" property="fileDes" />
     <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
     <result column="file_md5" jdbcType="VARCHAR" property="fileMd5" />
@@ -88,9 +89,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, parent_id, folder, file_sort, file_name, file_des, file_size, file_md5, 
-    file_path, storage_path, create_date, update_time, privacy_set, del, weight, need_password, 
-    file_password, free, pay_way, pay_link, need_score, need_money, download_amount, 
+    id, user_id, parent_id, folder, file_sort, file_name, file_type, file_des, file_size, 
+    file_md5, file_path, storage_path, create_date, update_time, privacy_set, del, weight, 
+    need_password, file_password, free, pay_way, pay_link, need_score, need_money, download_amount, 
     get_score, get_money
   </sql>
   <select id="selectByExample" parameterType="com.sharism.resource_server.model.ResourceInfoExample" resultMap="BaseResultMap">
@@ -127,22 +128,24 @@
   <insert id="insert" parameterType="com.sharism.resource_server.model.ResourceInfo">
     insert into resource_server_db (id, user_id, parent_id, 
       folder, file_sort, file_name, 
-      file_des, file_size, file_md5, 
-      file_path, storage_path, create_date, 
-      update_time, privacy_set, del, 
-      weight, need_password, file_password, 
-      free, pay_way, pay_link, 
-      need_score, need_money, download_amount, 
-      get_score, get_money)
+      file_type, file_des, file_size, 
+      file_md5, file_path, storage_path, 
+      create_date, update_time, privacy_set, 
+      del, weight, need_password, 
+      file_password, free, pay_way, 
+      pay_link, need_score, need_money, 
+      download_amount, get_score, get_money
+      )
     values (#{id,jdbcType=CHAR}, #{userId,jdbcType=CHAR}, #{parentId,jdbcType=CHAR}, 
       #{folder,jdbcType=INTEGER}, #{fileSort,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{fileDes,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, #{fileMd5,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{storagePath,jdbcType=VARCHAR}, #{createDate,jdbcType=CHAR}, 
-      #{updateTime,jdbcType=CHAR}, #{privacySet,jdbcType=INTEGER}, #{del,jdbcType=INTEGER}, 
-      #{weight,jdbcType=INTEGER}, #{needPassword,jdbcType=INTEGER}, #{filePassword,jdbcType=VARCHAR}, 
-      #{free,jdbcType=INTEGER}, #{payWay,jdbcType=INTEGER}, #{payLink,jdbcType=VARCHAR}, 
-      #{needScore,jdbcType=DOUBLE}, #{needMoney,jdbcType=DOUBLE}, #{downloadAmount,jdbcType=INTEGER}, 
-      #{getScore,jdbcType=DOUBLE}, #{getMoney,jdbcType=DOUBLE})
+      #{fileType,jdbcType=VARCHAR}, #{fileDes,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, 
+      #{fileMd5,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{storagePath,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=CHAR}, #{updateTime,jdbcType=CHAR}, #{privacySet,jdbcType=INTEGER}, 
+      #{del,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{needPassword,jdbcType=INTEGER}, 
+      #{filePassword,jdbcType=VARCHAR}, #{free,jdbcType=INTEGER}, #{payWay,jdbcType=INTEGER}, 
+      #{payLink,jdbcType=VARCHAR}, #{needScore,jdbcType=DOUBLE}, #{needMoney,jdbcType=DOUBLE}, 
+      #{downloadAmount,jdbcType=INTEGER}, #{getScore,jdbcType=DOUBLE}, #{getMoney,jdbcType=DOUBLE}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sharism.resource_server.model.ResourceInfo">
     insert into resource_server_db
@@ -164,6 +167,9 @@
       </if>
       <if test="fileName != null">
         file_name,
+      </if>
+      <if test="fileType != null">
+        file_type,
       </if>
       <if test="fileDes != null">
         file_des,
@@ -244,6 +250,9 @@
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
       </if>
       <if test="fileDes != null">
         #{fileDes,jdbcType=VARCHAR},
@@ -334,6 +343,9 @@
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
+      </if>
       <if test="record.fileDes != null">
         file_des = #{record.fileDes,jdbcType=VARCHAR},
       </if>
@@ -407,6 +419,7 @@
       folder = #{record.folder,jdbcType=INTEGER},
       file_sort = #{record.fileSort,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
       file_des = #{record.fileDes,jdbcType=VARCHAR},
       file_size = #{record.fileSize,jdbcType=DOUBLE},
       file_md5 = #{record.fileMd5,jdbcType=VARCHAR},
@@ -448,6 +461,9 @@
       </if>
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
       </if>
       <if test="fileDes != null">
         file_des = #{fileDes,jdbcType=VARCHAR},
@@ -519,6 +535,7 @@
       folder = #{folder,jdbcType=INTEGER},
       file_sort = #{fileSort,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
       file_des = #{fileDes,jdbcType=VARCHAR},
       file_size = #{fileSize,jdbcType=DOUBLE},
       file_md5 = #{fileMd5,jdbcType=VARCHAR},
@@ -553,7 +570,9 @@
     <if test="fileSort != null">
       AND  file_sort = #{fileSort}
     </if>
-
+    <if test="parentId != null">
+      AND  parent_id = #{parentId}
+    </if>
     <if test="fileName != null">
       AND  file_name = #{fileName}
     </if>
@@ -617,9 +636,6 @@
     </foreach>
 
   </update>
-
-
-
 
 
 </mapper>

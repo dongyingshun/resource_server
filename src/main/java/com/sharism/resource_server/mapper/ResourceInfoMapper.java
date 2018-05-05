@@ -45,4 +45,7 @@ public interface ResourceInfoMapper {
      * @return
      */
     int batchSetResourceDeleteStatus(@Param(value="userId")String userId,@Param(value="list") List<String>  ids);
+
+
+
 }

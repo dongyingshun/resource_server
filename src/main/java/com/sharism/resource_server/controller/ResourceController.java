@@ -67,7 +67,9 @@ public class ResourceController {
         //资源存储路径storage
         resourceInfo.setStoragePath(resourceInfo.getFilePath().substring(PublicValue.SERVER_ADDRESS_LENGTH+2));
         //发表时间
-        resourceInfo.setCreateDate(DateTime.getStringDate());
+        String time = DateTime.getStringDate();
+        resourceInfo.setCreateDate(time);
+        resourceInfo.setUpdateTime(time);
         //删除状态  0
         resourceInfo.setDel(PublicValue.REMOVE_DRAFT);
         //初始化下载次数
@@ -76,6 +78,13 @@ public class ResourceController {
         resourceInfo.setGetMoney(0.0);
         //初始化已获得积分
         resourceInfo.setGetScore(0.0);
+
+        //将file_type存入folder
+        JSONObject json = new JSONObject();
+        json.put("isFolder",resourceInfo.getFolder());
+        json.put("name",resourceInfo.getFileName());
+        resourceInfo.setFileType(json.toString());
+
         try {
             resourceService.saveResource(resourceInfo);
             return  Result.newInstance().setCode(1).setMessage("操作成功").setValue(id);
@@ -197,7 +206,7 @@ public class ResourceController {
         }
         if(resourceInfo.getId()==null)
             return  Result.newInstance().setCode(-3).setMessage("文件id不能为空");
-        //resourceInfo.setUserId(userId);
+        resourceInfo.setUpdateTime(DateTime.getStringDate());
         int i=0;
         try {
             i= resourceService.updateByPrimaryKeySelective(resourceInfo);

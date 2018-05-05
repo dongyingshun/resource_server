@@ -13,6 +13,8 @@ public class ResourceInfo {
 
     private String fileName;
 
+    private String fileType;
+
     private String fileDes;
 
     private Double fileSize;
@@ -99,6 +101,14 @@ public class ResourceInfo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName == null ? null : fileName.trim();
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType == null ? null : fileType.trim();
     }
 
     public String getFileDes() {
