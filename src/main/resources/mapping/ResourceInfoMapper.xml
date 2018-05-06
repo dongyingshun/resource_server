@@ -637,5 +637,12 @@
 
   </update>
 
+  <!--批量移动文件-->
+  <update id="batchMoveFile" parameterType="java.util.List">
+    update resource_server_db set parent_id = #{parentId} where  id in
+    <foreach collection="list" item="item" index="index" open="(" close=")"  separator="," >
+      #{item}
+    </foreach>
 
+  </update>
 </mapper>

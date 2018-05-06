@@ -83,4 +83,16 @@ public class ResourceServiceImpl implements ResourceService{
     public ResourceInfo selectByPrimaryKey(String id) throws Exception {
         return resourceInfoMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * 批量移动文件
+     * @param parentId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int batchMoveFile(String parentId, List<String> ids) throws Exception {
+        return resourceInfoMapper.batchMoveFile(parentId,ids);
+    }
 }

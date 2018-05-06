@@ -1,6 +1,7 @@
 package com.sharism.resource_server.service;
 
 import com.sharism.resource_server.model.ResourceInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -55,4 +56,14 @@ public interface ResourceService {
      * @throws Exception
      */
     ResourceInfo  selectByPrimaryKey(String id)throws Exception;
+
+    /**
+     * 批量移动文件
+     * @param parentId
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    int batchMoveFile(String parentId, List<String> ids)throws Exception;
+
 }

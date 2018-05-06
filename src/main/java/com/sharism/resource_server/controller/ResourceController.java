@@ -251,6 +251,44 @@ public class ResourceController {
 
     }
 
+    /**
+     * 批量移动文件
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/moveFile", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public Result moveFile(HttpServletRequest request, HttpServletResponse response) {
+        //TODO 获取session
+        String userId = "690770002d9f4b78a10903efc3320391";
+
+        if(userId == null)
+            return  Result.newInstance().setCode(0).setMessage("请登录");
+
+        String moveFileMap = request.getParameter("moveFileMap");
+        if (moveFileMap == null)
+            return Result.newInstance().setCode(-1).setMessage("数据为空");
+        JSONObject jb = JSONObject.fromObject(moveFileMap);
+        Map map = (Map)jb;
+        String[] split = ((String)map.get("ids")).split(",");
+        if(split.length==0)
+            return  Result.newInstance().setCode(-2).setMessage("要移动的文件为空");
+        List<String> list =new ArrayList<>();
+        for(String tmp:split) {
+            list.add(tmp);
+        }
+
+        try {
+            int count = resourceService.batchMoveFile((String) map.get("parentId"), list);
+            return Result.newInstance().setCode(1).setMessage("成功").setValue(count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.newInstance().setCode(-3).setMessage("移动失败");
+        }
+
+    }
+
 
 
 

@@ -46,6 +46,12 @@ public interface ResourceInfoMapper {
      */
     int batchSetResourceDeleteStatus(@Param(value="userId")String userId,@Param(value="list") List<String>  ids);
 
-
+    /**
+     * 批量移动文件夹
+     * @param parentId
+     * @param ids
+     * @return
+     */
+    int batchMoveFile(@Param(value="parentId")String parentId,@Param(value="list") List<String>  ids);
 
 }
