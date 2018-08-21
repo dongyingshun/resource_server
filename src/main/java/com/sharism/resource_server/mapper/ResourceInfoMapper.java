@@ -54,4 +54,12 @@ public interface ResourceInfoMapper {
      */
     int batchMoveFile(@Param(value="parentId")String parentId,@Param(value="list") List<String>  ids);
 
+
+    /**
+     * 获取可移动列表
+     * @param
+     * @param ids
+     * @return
+     */
+    List<ResourceInfo> selectMoveResourcePage(@Param(value="userId")String userId,@Param(value="parentId")String parentId,@Param(value="list") List<String>  ids);
 }

@@ -66,4 +66,17 @@ public interface ResourceService {
      */
     int batchMoveFile(String parentId, List<String> ids)throws Exception;
 
+
+    /**
+     * 获取可移动列表
+     * @param
+     * @param pageNum
+     * @param pageSize
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    List<ResourceInfo> selectMoveResourceList(String userId,String parentId, int pageNum, int pageSize, List<String> ids) throws Exception;
+
+
 }

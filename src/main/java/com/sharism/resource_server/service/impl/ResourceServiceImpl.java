@@ -95,4 +95,10 @@ public class ResourceServiceImpl implements ResourceService{
     public int batchMoveFile(String parentId, List<String> ids) throws Exception {
         return resourceInfoMapper.batchMoveFile(parentId,ids);
     }
+
+    @Override
+    public List<ResourceInfo> selectMoveResourceList(String userId,String parentId, int pageNum, int pageSize, List<String> ids) throws Exception {
+        PageHelper.startPage(pageNum, pageSize);
+        return resourceInfoMapper.selectMoveResourcePage(userId,parentId,ids);
+    }
 }

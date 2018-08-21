@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +27,8 @@ import java.util.Map;
  */
 @CrossOrigin //支持跨域请求
 @Controller
-@RequestMapping(value = "resource")
-public class ResourceController {
+@RequestMapping(value = "wx_resource")
+public class WX_ResourceController {
     @Autowired
     private ResourceService resourceService;
 
@@ -39,7 +40,7 @@ public class ResourceController {
      */
     @RequestMapping(value = "/saveResource", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result saveResource(HttpServletRequest request, HttpServletResponse response){
+    public Result saveResource(@RequestParam("value") String value, HttpServletRequest request, HttpServletResponse response){
 
         //TODO :获取session值
 
@@ -47,10 +48,10 @@ public class ResourceController {
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String resourceMap= request.getParameter("resourceInfoMap");
-        if(resourceMap==null)
+        if(value==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
-        JSONObject jb = JSONObject.fromObject(resourceMap);
+        value= "{"+value+"}";
+        JSONObject jb = JSONObject.fromObject(value);
         Map resource = (Map)jb;
         ResourceInfo resourceInfo=new ResourceInfo();
         try {
@@ -103,16 +104,16 @@ public class ResourceController {
      */
     @RequestMapping(value = "/ResourceList", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result ResourceList(HttpServletRequest request, HttpServletResponse response){
+    public Result ResourceList(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response){
         //TODO 获取session
         String userId="690770002d9f4b78a10903efc3320391";
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String resourcePageMap= request.getParameter("resourcePageMap");
-        if(resourcePageMap==null)
+        if(value==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
-        JSONObject Page = JSONObject.fromObject(resourcePageMap);
+        value= "{"+value+"}";
+        JSONObject Page = JSONObject.fromObject(value);
         int pageNum  = Page.getInt("pageNum");
         int pageSize = Page.getInt("pageSize");
 
@@ -137,41 +138,6 @@ public class ResourceController {
         return  Result.newInstance().setCode(1).setMessage("成功").setValue(pageInfo);
 
     }
-    @RequestMapping(value = "/ResourceListByUserId", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public Result ResourceListByUserId(HttpServletRequest request, HttpServletResponse response){
-
-        String resourcePageMap= request.getParameter("resourcePageMap");
-        if(resourcePageMap==null)
-            return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
-        JSONObject Page = JSONObject.fromObject(resourcePageMap);
-        int pageNum  = Page.getInt("pageNum");
-        int pageSize = Page.getInt("pageSize");
-
-        if(pageSize<0)
-            return  Result.newInstance().setCode(-2).setMessage("数据条数不合法");
-        if(pageNum<0)
-            return  Result.newInstance().setCode(-3).setMessage("页数不合法");
-
-        Map map=(Map)Page;
-        String userId = (String)map.get("userId");
-        if(userId == null)
-            return  Result.newInstance().setCode(-5).setMessage("用户id为空");
-
-        //Page.clear();
-        List<ResourceInfo> resourceInfos = null;
-        try {
-            resourceInfos = resourceService.selectResource(map, pageNum, pageSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return  Result.newInstance().setCode(-4).setMessage("查询失败");
-        }
-
-        PageInfo<ResourceInfo> pageInfo = new PageInfo<>(resourceInfos);
-
-        return  Result.newInstance().setCode(1).setMessage("成功").setValue(pageInfo);
-
-    }
 
     /**
      * 批量删除文件
@@ -181,18 +147,18 @@ public class ResourceController {
      */
     @RequestMapping(value = "/deleteResource", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result deleteResource(HttpServletRequest request, HttpServletResponse response){
+    public Result deleteResource(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response){
         //TODO 获取session
         String userId="690770002d9f4b78a10903efc3320391";
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
 
-        String resourceArrayList= request.getParameter("resourceArrayList");
-        if(resourceArrayList==null)
+       // String resourceArrayList= request.getParameter("resourceArrayList");
+        if(value==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
 
-        String[] split = resourceArrayList.split(",");
+        String[] split = value.split(",");
 
         if(split.length==0)
             return  Result.newInstance().setCode(-2).setMessage("数据为空");
@@ -222,16 +188,17 @@ public class ResourceController {
      */
     @RequestMapping(value ="/updateResourceInfo",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result updateBlogInfo(javax.servlet.http.HttpServletRequest request, HttpServletResponse response) {
+    public Result updateBlogInfo(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response) {
         //TODO :获取session值
         String userId = "690770002d9f4b78a10903efc3320391";
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String updateResourceInfoMap= request.getParameter("updateResourceInfoMap");
-        if(updateResourceInfoMap==null)
+       // String updateResourceInfoMap= request.getParameter("updateResourceInfoMap");
+        if(value==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空");
-        JSONObject jb = JSONObject.fromObject(updateResourceInfoMap);
+        value= "{"+value+"}";
+        JSONObject jb = JSONObject.fromObject(value);
         Map map = (Map)jb;
         ResourceInfo resourceInfo=null;
         try {
@@ -265,19 +232,19 @@ public class ResourceController {
      */
     @RequestMapping(value = "/selectResourceById", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result selectResourceById(HttpServletRequest request, HttpServletResponse response) {
+    public Result selectResourceById(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response) {
         //TODO 获取session
         String userId = "690770002d9f4b78a10903efc3320391";
 
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String resourceId = request.getParameter("resourceId");
-        if (resourceId == null)
+        //String resourceId = request.getParameter("resourceId");
+        if (value == null)
             return Result.newInstance().setCode(-1).setMessage("id为空").setValue(null);
         ResourceInfo resourceInfo=null;
         try {
-             resourceInfo = resourceService.selectByPrimaryKey(resourceId);
+             resourceInfo = resourceService.selectByPrimaryKey(value);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.newInstance().setCode(-2).setMessage("查询失败").setValue(null);
@@ -294,17 +261,19 @@ public class ResourceController {
      */
     @RequestMapping(value = "/moveFile", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result moveFile(HttpServletRequest request, HttpServletResponse response) {
+    public Result moveFile(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response) {
         //TODO 获取session
         String userId = "690770002d9f4b78a10903efc3320391";
 
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String moveFileMap = request.getParameter("moveFileMap");
-        if (moveFileMap == null)
+       // String moveFileMap = request.getParameter("moveFileMap");
+        if (value == null)
             return Result.newInstance().setCode(-1).setMessage("数据为空");
-        JSONObject jb = JSONObject.fromObject(moveFileMap);
+        value= "{"+value+"}";
+
+        JSONObject jb = JSONObject.fromObject(value);
         Map map = (Map)jb;
         String[] split = ((String)map.get("ids")).split(",");
         if(split.length==0)
@@ -332,16 +301,17 @@ public class ResourceController {
      */
     @RequestMapping(value = "/getMoveResourceList", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public Result getMoveResourceList(HttpServletRequest request, HttpServletResponse response){
+    public Result getMoveResourceList(@RequestParam("value") String value,HttpServletRequest request, HttpServletResponse response){
         //TODO 获取session
         String userId="690770002d9f4b78a10903efc3320391";
         if(userId == null)
             return  Result.newInstance().setCode(0).setMessage("请登录");
 
-        String resourcePageMap= request.getParameter("resourceMovePageMap");
-        if(resourcePageMap==null)
+       // String resourcePageMap= request.getParameter("resourceMovePageMap");
+        if(value==null)
             return  Result.newInstance().setCode(-1).setMessage("数据为空").setValue(null);
-        JSONObject Page = JSONObject.fromObject(resourcePageMap);
+        value= "{"+value+"}";
+        JSONObject Page = JSONObject.fromObject(value);
         int pageNum  = Page.getInt("pageNum");
         int pageSize = Page.getInt("pageSize");
 

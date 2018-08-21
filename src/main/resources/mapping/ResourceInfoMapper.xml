@@ -576,7 +576,9 @@
     <if test="fileName != null">
       AND  file_name = #{fileName}
     </if>
-
+    <if test="folder != null">
+      AND   folder = #{folder}
+    </if>
     <if test="fileDes != null">
       AND   file_des = #{fileDes}
     </if>
@@ -645,4 +647,37 @@
     </foreach>
 
   </update>
+
+
+
+
+
+
+  <!--移动列表显示-->
+  <select id="selectMoveResourcePage"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from resource_server_db
+    where user_id = #{userId,jdbcType=CHAR}
+    <if test="parentId != null and parentId !=''">
+        AND  parent_id = #{parentId}
+    </if>
+    AND   folder = 1
+    AND    del   = 0
+
+    AND
+    parent_id not in
+    <foreach collection="list" item="item" index="index" open="(" close=")"  separator="," >
+      #{item}
+    </foreach>
+    AND
+    id not in
+    <foreach collection="list" item="item" index="index" open="(" close=")"  separator="," >
+      #{item}
+    </foreach>
+
+
+      ORDER BY  create_date  DESC
+
+  </select>
 </mapper>
